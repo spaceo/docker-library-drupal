@@ -13,5 +13,8 @@ xdebug.remote_host = $gateway
 EOF1
 ) >> /usr/local/etc/php/conf.d/xdebug.ini
 
+# Reload apache2 to adjust to xdebug settings.
+service apache2 reload
+
 # Start syslog
 service rsyslog start
