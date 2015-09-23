@@ -11,7 +11,7 @@ gateway=`route |grep default |awk '{print $2}'`
 cat << EOF1
 xdebug.remote_host = $gateway
 EOF1
-) >> /etc/php5/mods-available/xdebug.ini
+) >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Start syslog
 service rsyslog start
