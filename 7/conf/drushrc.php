@@ -30,3 +30,9 @@ if ($success) {
 //print_r($options); // can be used to debug which directories it finds.
   }
 }
+
+$override = array(
+  'language_default' => (object) array(
+    'language' => 'en',
+  ),
+);
