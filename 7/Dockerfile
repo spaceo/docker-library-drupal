@@ -40,7 +40,18 @@ ADD ./conf/php.ini /usr/local/etc/php/php.ini
 ADD ./conf/php.cli.ini /etc/php5/cli/php.ini
 RUN echo 'export PHPRC=/etc/php5/cli/php.ini' >> /root/.bashrc
 
-# Adding xdebug conf and startup script.
+# Adding xdebug conf
 ADD conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+# Virtual hosts
+ADD conf/apache/aktivdb.dev.conf /etc/apache2/sites-available/aktivdb.dev.conf
+ADD conf/apache/aktivws.dev.conf /etc/apache2/sites-available/aktivws.dev.conf
+RUN a2ensite aktivdb.dev
+RUN a2ensite aktivws.dev
+
+# Using aktivdb as main acces for drush cmds
+RUN cd /var/www && rm -rf html && ln -s aktivdb.dev/htdocs html
+
+# Adding startup script
 ADD start.sh /start.sh
 RUN (chmod 750 /start.sh)
