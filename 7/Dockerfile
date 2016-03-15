@@ -2,6 +2,7 @@
 FROM php:5.6-apache
 
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 # install the PHP extensions we need
 RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libxml2-dev \
@@ -45,9 +46,9 @@ ADD conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Virtual hosts
 ADD conf/apache/aktivdb.dev.conf /etc/apache2/sites-available/aktivdb.dev.conf
-ADD conf/apache/aktivws.dev.conf /etc/apache2/sites-available/aktivws.dev.conf
+ADD conf/apache/ws.aktivdb.dev.conf /etc/apache2/sites-available/ws.aktivdb.dev.conf
 RUN a2ensite aktivdb.dev
-RUN a2ensite aktivws.dev
+RUN a2ensite ws.aktivdb.dev
 
 # Using aktivdb as main acces for drush cmds
 RUN cd /var/www && rm -rf html && ln -s aktivdb.dev/htdocs html
