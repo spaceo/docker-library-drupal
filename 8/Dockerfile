@@ -1,6 +1,8 @@
 # from https://www.drupal.org/requirements/php#drupalversions
 FROM php:5.6-apache
 
+ENV workdir /var/www/html
+
 RUN a2enmod rewrite
 
 # install the PHP extensions we need
@@ -13,7 +15,7 @@ RUN apt-get -y install vim php5-xdebug php5-dev php-pear bzip2 git php-apc php5-
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
-WORKDIR /var/www/html
+WORKDIR ${workdir}
 
 # Xhprof
 ADD ./conf/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
