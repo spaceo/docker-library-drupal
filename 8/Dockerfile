@@ -35,7 +35,8 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /root/.bashrc
 RUN export PATH="$HOME/.composer/vendor/bin:$PATH"
 RUN composer global require drush/drush:8.1.3
-RUN /root/.composer/vendor/bin/drush dl drush_situs
+# Currently there is no drush_situs module for drush-8
+# RUN /root/.composer/vendor/bin/drush dl drush_situs
 RUN composer global require drupal/console:1.0.0-beta5
 
 # Adding php.ini conf.
