@@ -36,6 +36,7 @@ RUN echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /root/.bashrc
 RUN export PATH="$HOME/.composer/vendor/bin:$PATH"
 RUN composer global require drush/drush:8.0.0-beta14
 RUN /root/.composer/vendor/bin/drush dl drush_situs
+RUN composer global require drupal/console:1.0.0-beta5
 
 # Adding php.ini conf.
 ADD ./conf/php.ini /usr/local/etc/php/php.ini
