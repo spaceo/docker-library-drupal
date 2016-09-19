@@ -1,0 +1,13 @@
+docker-stop-checkout
+#docker rm `docker ps -aq`
+
+docker run --name database -e MYSQL_ROOT_PASSWORD=root -d -v ~/workspace/docker-drupal-data/mysql.conf.d:/etc/mysql/conf.d -v "$PWD/db":/var/lib/mysql mysql
+docker run --name=serverws --link database:db -d  -v "$PWD/aktivws.dev/htdocs":/var/www/aktivws.dev/htdocs -p 8081:80 aktivdb
+docker run --name=server --link serverws:aktivws.dev --link database:db -d -v "$PWD/aktivdb.dev/htdocs":/var/www/aktivdb.dev/htdocs -p 8080:80 aktivdb
+
+sleep 5
+docker exec -t serverws /bin/bash /start.sh
+docker exec -t server /bin/bash /start.sh
+docker exec -t server mkdir -p /var/www/aktivdb.dev/htdocs/sites/default/files/private
+docker exec -t server chown -R www-data.www-data /var/www/aktivdb.dev/htdocs/sites/default/files
+

@@ -1,0 +1,13 @@
+HOST_IP=`/sbin/ip route|awk '/default/ { print  $3}'`
+
+docker-stop-checkout
+
+
+docker run --name database -e MYSQL_ROOT_PASSWORD=root -d -v ~/workspace/docker-drupal-data/mysql.conf.d:/etc/mysql/conf.d -v "$PWD/db":/var/lib/mysql mysql
+docker run --add-host aktivws.dev:127.0.0.1 --name=server --link database:db -d -v "$PWD/aktivdb.dev":/var/www/aktivdb.dev -v "$PWD/aktivws.dev":/var/www/aktivws.dev -p 80:80 aktivdb
+
+sleep 5
+docker exec -t server /bin/bash /start.sh
+docker exec -t server mkdir -p /var/www/aktivdb.dev/htdocs/sites/default/files/private
+docker exec -t server chown -R www-data.www-data /var/www/aktivdb.dev/htdocs/sites/default/files
+

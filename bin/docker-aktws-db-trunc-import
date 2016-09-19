@@ -1,0 +1,2 @@
+docker run -it --link database:db -v "$PWD/db-dumps":/tmp/db-dumps --rm mysql sh -c 'exec mysql -uroot -proot -hdb -e "DROP DATABASE IF EXISTS aktws_local; CREATE DATABASE aktws_local"'
+docker run -it --link database:db -v "$PWD/db-dumps":/tmp/db-dumps --rm mysql sh -c 'exec mysql -uroot -proot -hdb aktws_local < /tmp/db-dumps/aktws_local.sql'
