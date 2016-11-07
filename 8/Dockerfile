@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libx
 	&& docker-php-ext-install gd mbstring pdo pdo_mysql pdo_pgsql zip soap opcache
 
 RUN apt-get -y install vim php5-xdebug php5-dev php-pear bzip2 git php-apc php5-memcache \
-  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common graphviz
+  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common graphviz php5-bcmath
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
@@ -30,10 +30,14 @@ RUN chown www-data.www-data /usr/local/lib/php/xhprof_html
 RUN mkdir /root/.drush
 ADD ./conf/drushrc.php /root/.drush/drushrc.php
 # http://whaaat.com/installing-drush-8-using-composer
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-RUN echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /root/.bashrc
-RUN export PATH="$HOME/.composer/vendor/bin:$PATH"
+# Add drupal console.
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
+    php drupal.phar && \
+    mv drupal.phar /usr/local/bin/drupal && \
+    chmod +x /usr/local/bin/drupal && \
+    /usr/local/bin/drupal check && \
+    echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /root/.bashrc && \
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
 RUN composer global require drush/drush:8.1.3
 # Currently there is no drush_situs module for drush-8
 # RUN /root/.composer/vendor/bin/drush dl drush_situs
