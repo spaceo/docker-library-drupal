@@ -9,26 +9,32 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libx
 	&& docker-php-ext-install gd mbstring pdo pdo_mysql pdo_pgsql zip soap
 
 RUN apt-get -y install vim php5-xdebug php5-dev php-pear bzip2 git php-apc php5-memcache \
-  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common graphviz pv php5-xsl
+  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common \
+  graphviz pv php5-xsl nullmailer
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
-#Make mail relay work
-RUN echo "dc_eximconfig_configtype='internet'" > /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_other_hostnames=''" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_local_interfaces=''" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_readhost=''" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_relay_domains='*'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_minimaldns='false'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_relay_nets='0.0.0.0/48'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_smarthost=''" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "CFILEMODE='644'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_use_split_config='false'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_hide_mailname=''" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_mailname_in_oh='true'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "dc_localdelivery='mail_spool'" >> /etc/exim4/update-exim4.conf.conf && \
-		echo "local-development.dev" >> /etc/mailname && \
-		/usr/sbin/update-exim4.conf 
+# Make mail relay work
+#RUN echo "dc_eximconfig_configtype='internet'" > /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_other_hostnames=''" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_local_interfaces=''" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_readhost=''" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_relay_domains='*'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_minimaldns='false'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_relay_nets='0.0.0.0/48'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_smarthost=''" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "CFILEMODE='644'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_use_split_config='false'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_hide_mailname=''" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_mailname_in_oh='true'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "dc_localdelivery='mail_spool'" >> /etc/exim4/update-exim4.conf.conf && \
+#		echo "local-development.dev" >> /etc/mailname && \
+#		/usr/sbin/update-exim4.conf 
+
+# Route mail to mailcatcher SMTP via nullmailer
+echo "mail smtp -p 1025" > /etc/nullmailer/remotes
+RUN /etc/init.d/nullmailer stop
+RUN /etc/init.d/nullmailer start
 
 WORKDIR /var/www/html
 
