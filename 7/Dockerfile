@@ -36,8 +36,6 @@ RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
 # Route mail to mailcatcher SMTP via nullmailer
 RUN echo "mail smtp -p 1025" > /etc/nullmailer/remotes
-RUN /etc/init.d/nullmailer stop
-RUN /etc/init.d/nullmailer start
 
 WORKDIR /var/www/html
 
