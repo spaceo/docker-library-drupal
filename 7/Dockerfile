@@ -10,7 +10,10 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libx
 
 RUN apt-get -y install vim php5-xdebug php5-dev php-pear bzip2 git php-apc php5-memcache \
   memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common \
-  graphviz pv php5-xsl nullmailer
+  graphviz pv php5-xsl
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -yq install nullmailer
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
@@ -32,7 +35,7 @@ RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 #		/usr/sbin/update-exim4.conf 
 
 # Route mail to mailcatcher SMTP via nullmailer
-echo "mail smtp -p 1025" > /etc/nullmailer/remotes
+RUN echo "mail smtp -p 1025" > /etc/nullmailer/remotes
 RUN /etc/init.d/nullmailer stop
 RUN /etc/init.d/nullmailer start
 
