@@ -13,6 +13,9 @@
 #EOF1
 #) >> /usr/local/etc/php/conf.d/xdebug.ini
 
+# Reload exim4
+/etc/init.d/exim4 reload
+
 # Reload apache2 to adjust to xdebug settings.
 service apache2 reload
 
