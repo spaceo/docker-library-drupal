@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libx
 	&& docker-php-ext-install gd mbstring pdo pdo_mysql pdo_pgsql zip soap
 
 RUN apt-get -y install vim php5-xdebug php5-dev php-pear bzip2 git php-apc php5-memcache \
-  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common graphviz pv php5-xsl
+  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common graphviz pv
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
