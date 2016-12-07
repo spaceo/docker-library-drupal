@@ -42,5 +42,3 @@ RUN echo 'export PHPRC=/etc/php5/cli/php.ini' >> /root/.bashrc
 
 # Adding xdebug conf and startup script.
 ADD conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-ADD start.sh /start.sh
-RUN (chmod 750 /start.sh)
