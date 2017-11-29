@@ -17,15 +17,6 @@ RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
 WORKDIR ${workdir}
 
-# Xhprof
-ADD ./conf/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
-RUN pecl install xhprof-0.9.4
-RUN php5enmod xhprof
-RUN mkdir /tmp/xhprof
-RUN chmod 777 /tmp/xhprof
-RUN chown www-data.www-data /tmp/xhprof
-RUN chown www-data.www-data /usr/local/lib/php/xhprof_html
-
 # Drush
 RUN mkdir /root/.drush
 ADD ./conf/drushrc.php /root/.drush/drushrc.php
@@ -40,7 +31,7 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
     /usr/local/bin/drupal check && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> /root/.bashrc && \
     export PATH="$HOME/.composer/vendor/bin:$PATH"
-RUN composer global require drush/drush:8.1.3
+RUN composer global require drush/drush:8.1.15
 # Currently there is no drush_situs module for drush-8
 # RUN /root/.composer/vendor/bin/drush dl drush_situs
 # RUN composer global require drupal/console:1.0.0-beta5
