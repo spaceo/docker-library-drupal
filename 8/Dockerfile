@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:5.6-apache
+FROM php:7.1-apache
 
 ENV workdir /var/www/html
 
