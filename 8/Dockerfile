@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libx
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mbstring pdo pdo_mysql pdo_pgsql zip soap opcache bcmath
 
-RUN apt-get -y install vim php5-xdebug php5-dev php-pear bzip2 git php-apc php5-memcache \
-  memcached curl imagemagick php5-imagick mysql-client rsyslog net-tools php5-common graphviz
+RUN apt-get -y install vim php7-xdebug php7-dev php-pear bzip2 git php-apc php7-memcache \
+  memcached curl imagemagick php7-imagick mysql-client rsyslog net-tools php7-common graphviz
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
@@ -40,8 +40,8 @@ RUN composer global require drush/drush:8.1.15
 
 # Adding php.ini conf.
 ADD ./conf/php.ini /usr/local/etc/php/php.ini
-ADD ./conf/php.cli.ini /etc/php5/cli/php.ini
-RUN echo 'export PHPRC=/etc/php5/cli/php.ini' >> /root/.bashrc
+ADD ./conf/php.cli.ini /etc/php7/cli/php.ini
+RUN echo 'export PHPRC=/etc/php7/cli/php.ini' >> /root/.bashrc
 
 # Adding xdebug conf and startup script.
 ADD conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
