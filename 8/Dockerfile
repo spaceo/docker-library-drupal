@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev libx
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mbstring pdo pdo_mysql pdo_pgsql zip soap opcache bcmath
 
-RUN apt-get -y install vim php-xdebug php7.0-dev php-pear bzip2 git php-apc php-memcache \
-  memcached curl imagemagick php-imagick mysql-client rsyslog net-tools php7.0-common graphviz
+RUN apt-get -y install vim php7.1-xdebug php7.1-dev php-pear bzip2 git php-apc php-memcache \
+  memcached curl imagemagick php-imagick mysql-client rsyslog net-tools php7.1-common graphviz
 
 RUN echo 'local0.* /var/log/drupal.log' >> /etc/rsyslog.conf
 
